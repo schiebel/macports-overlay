@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+set _name           ssh_ipykernel
+set _n              [string index ${_name} 0]
+
+name                py-ssh_ipykernel
+version             1.2.3
+revision            0
+categories-append   devel
+license             BSD
+supported_archs     noarch
+platforms           {darwin any}
+
+python.versions     37 38 39 310
+python.pep517       yes
+python.pep517_backend hatch
+
+maintainers         nomaintainer
+
+description         remote ipykernel
+long_description    {*}${description}
+
+homepage            https://pypi.python.org/pypi/${python.rootname}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+checksums           rmd160  daf8925c6602869988c6a7639f55b8b61a27dc87 \
+                    sha256  99314a231846fb47557ebac36fbf4ad0a289933a34b8ef59dfe893a9eb4adbda \
+                    size    15134
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-ipykernel
+}

@@ -1,0 +1,67 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem           1.0
+PortGroup            github 1.0
+PortGroup            python 1.0
+
+github.setup         holoviz datashader 0.14.4 v
+revision             0
+
+name                 py-${github.project}
+
+checksums            rmd160  fe034b3c8715791320291114059214da504e4e80 \
+                     sha256  2cffa7265a31d53bf680181ae48dba732c9d19a5a0a3c7301060ec55b439f3ca \
+                     size    18393076
+categories-append    devel graphics
+license			     BSD
+
+maintainers          nomaintainer
+
+description          turn even the largest data into images, accurately
+
+long_description     Datashader is a data rasterization pipeline for automating the \
+                     process of creating meaningful representations of large amounts \
+                     of data. Datashader breaks the creation of images of data into 3 \
+                     main steps, (1) projection: each record is projected into zero \
+                     or more bins of a nominal plotting grid shape, based on a \
+                     specified glyph, (2) aggregation: reductions are computed for \
+                     each bin, compressing the potentially large dataset into a much \
+                     smaller aggregate array, (3) transformation: these aggregates are \
+                     then further processed, eventually creating an image. Using this \
+                     very general pipeline, many interesting data visualizations can \
+                     be created in a performant and scalable way. Datashader contains \
+                     tools for easily creating these pipelines in a composable manner, \
+                     using only a few lines of code. Datashader can be used on its own, \
+                     but it is also designed to work as a pre-processing stage in a \
+                     plotting library, allowing that library to work with much larger \
+                     datasets than it would otherwise.
+
+homepage             https://datashader.org//
+
+python.versions      37 38 39 310
+
+if {${name} ne ${subport}} {
+    depends_build-append port:py${python.version}-param \
+                         port:py${python.version}-pyct \
+                         port:py${python.version}-setuptools
+
+    ###
+    ### Tue Mar  7 16:41:55 EST 2023
+    ###
+    ### numba requires a numpy version < 1.24 which required a reinstall of numpy
+    ### after this change:
+    ###
+    depends_lib-append   port:py${python.version}-colorcet \
+                         port:py${python.version}-dask \
+                         port:py${python.version}-datashape \
+                         port:py${python.version}-numba \
+                         port:py${python.version}-numpy \
+                         port:py${python.version}-pandas \
+                         port:py${python.version}-param \
+                         port:py${python.version}-Pillow \
+                         port:py${python.version}-pyct \
+                         port:py${python.version}-requests \
+                         port:py${python.version}-scipy \
+                         port:py${python.version}-toolz \
+                         port:py${python.version}-xarray
+}

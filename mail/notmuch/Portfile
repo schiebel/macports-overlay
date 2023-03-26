@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 139741 2015-08-26 02:44:02Z khindenburg@macports.org $
+
+PortSystem          1.0
+PortGroup           conflicts_build 1.0
+
+name                notmuch
+version             0.21
+categories          mail
+platforms           darwin
+license             GPL-3+
+maintainers         cs.stanford.edu:cceleri
+description         The mail indexer
+long_description    “Not much mail” is what Notmuch thinks about your email \
+                    collection, even if you receive 12000 messages per month or have on the \
+                    order of millions of messages that you’ve been saving for decades. \
+                    Regardless, Notmuch will be able to quickly search all of it. It’s just \
+                    plain not much mail.
+
+homepage            http://notmuchmail.org/
+master_sites        ${homepage}releases/
+
+checksums           rmd160  a02742c5d20ba56678ff9510440dbff0717f077d \
+                    sha256  d06f8ffed168c7d53ffc449dd611038b5fa90f7ee22d58f3bec3b379571e25b3
+
+depends_build       port:pkgconfig
+
+depends_lib         port:xapian-bindings\
+                    port:gmime\
+                    port:talloc
+
+patchfiles          patch-bindings-python-notmuch-globals.py.diff
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/bindings/python/notmuch/globals.py
+}
+
+conflicts_build     ${name}
+
+if {[variant_isset universal]} {
+    # llvm-gcc-4.2: -E, -S, -save-temps and -M options are not allowed with multiple -arch flags
+    compiler.blacklist  *llvm-gcc-4.2
+}
+
+configure.args      --without-emacs
+
+# disable silent rules
+build.args          V=1
+
+variant emacs description {EMACS support} {
+    depends_lib-append      port:emacs
+    configure.args-delete   --without-emacs
+    configure.args-append   --with-emacs
+}
+
+livecheck.type      regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9.\]+)${extract.suffix}

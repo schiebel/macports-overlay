@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id: Portfile 73961 2010-11-30 10:20:21Z dports@macports.org $
+
+PortSystem 1.0
+PortGroup   cmake 1.1
+
+name		libsakura
+version		5.1.3
+revision    1
+categories	science
+maintainers	nomaintainer
+description	        C++ library for astronomical data analysis
+long_description	high-performance, thread-safe library compatible with C and C++ \
+                    optimized for data analysis of astronomy and astrophysics
+master_sites        https://github.com/tnakazato/sakura/archive/refs/tags/
+
+checksums           md5     ce5a18a82cb9eb061f09eccf61e16c35 \
+                    sha1    797d69190485aa1beec127b5d1fdff8b62561716 \
+                    rmd160  e781ebd4a5bfef613d296b059794f275123eacfa \
+                    sha256  e94afe4c95065448c498f9c863c17bb5c8645748dfad22c8b0365aaf219a1f2d \
+                    size    461218
+
+cmake.source_dir      ${worksrcpath}/libsakura
+configure.args-append -DCMAKE_INSTALL_PREFIX="${prefix}" \
+                      -DBUILD_DOC:BOOL=OFF \
+                      -DPYTHON_BINDING:BOOL=OFF \
+                      -DSIMD_ARCH=GENERIC \
+                      -DENABLE_TEST:BOOL=OFF

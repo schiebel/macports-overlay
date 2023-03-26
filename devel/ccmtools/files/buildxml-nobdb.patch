@@ -1,0 +1,30 @@
+Index: ccmtools/build.xml
+===================================================================
+--- ccmtools/build.xml	(revision 20)
++++ ccmtools/build.xml	(working copy)
+@@ -19,7 +19,6 @@
+   	<property name="build" location="build" />
+   	<property name="prefix" location="dist" />
+   	<property name="test" location="test" />
+-	<property name="dbxml_path" location="/usr/lib" />
+   	<property name="sandbox" location="test/CppGenerator/sandbox" />
+ 
+   	<!-- Define project related constants in Java -->
+@@ -36,8 +35,6 @@
+   		<pathelement path="${lib}/mdr01.jar" />
+   		<pathelement path="${lib}/oclmetamodel.jar" />		
+   		<pathelement path="${build}/classes" />
+-		<pathelement path="${dbxml_path}/db.jar" />
+-		<pathelement path="${dbxml_path}/dbxml.jar" />
+   	</path>
+ 
+   	<path id="test.classpath">
+@@ -45,8 +42,6 @@
+   		<pathelement path="${lib}/dtd2java.jar" />
+   		<pathelement path="${lib}/mdr01.jar" />
+   		<pathelement path="${lib}/oclmetamodel.jar" />
+-		<pathelement path="${dbxml_path}/db.jar" />
+-		<pathelement path="${dbxml_path}/dbxml.jar" />
+       	<pathelement path="${build}/test" />
+       	<pathelement path="${build}/classes" />
+   	</path>

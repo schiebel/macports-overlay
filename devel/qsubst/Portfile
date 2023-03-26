@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id: Portfile 73961 2010-11-30 10:20:21Z dports@macports.org $
+
+PortSystem 1.0
+
+name		qsubst
+version		0.6
+revision    1
+categories	devel
+maintainers	nomaintainer
+description	perform basic substitution on a number of files
+long_description	perform basic substitution on a number of files
+
+master_sites      http://www.cv.nrao.edu/~dschieb/
+
+checksums           md5     bf3045a484b6d0531488c0d98bb544fe \
+                    sha1    17764d466f5d8f157f96708e8b2e2d45de002a8d \
+                    rmd160  ec2f33c1dd0119651dc70e0096b265fe5495c81a \
+                    sha256  008edd7505e2a7b038c0461bd10f1b6823e35719d631eba4a81811114d58e643 \
+                    size    6294
+
+use_configure       no
+build.cmd           make
+
+destroot {
+    xinstall -m 0755 -W ${worksrcpath} qsubst ${destroot}${prefix}/bin
+    xinstall -m 0644 -W ${worksrcpath} qsubst.1 ${destroot}${prefix}/share/man/man1
+}

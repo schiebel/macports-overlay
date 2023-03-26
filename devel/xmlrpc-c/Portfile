@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id: Portfile 73961 2010-11-30 10:20:21Z dports@macports.org $
+
+PortSystem 1.0
+
+name		xmlrpc-c
+version		1.06.38
+revision    1
+categories	devel www
+maintainers	nomaintainer
+description	Lightweight RPC library based on XML and HTTP
+long_description	XML-RPC is a quick-and-easy way to make procedure calls \
+			over the Internet. It converts the procedure call into \
+			XML document, sends it to a remote server using HTTP, and \
+			gets back the response as XML. \
+			This library provides a modular implementation of XML-RPC \
+			for C and C++.
+homepage	http://xmlrpc-c.sourceforge.net/
+platforms	darwin
+master_sites	sourceforge
+
+checksums	md5     3ddfda82b131cbbd8a5d0b80a4309d8d \
+		sha1    40332f0f363b9ca79242b28d4cbf13516702dacf \
+		rmd160  8d9f85a1b1be91fdc5c8aaab5571d0270ddbdf67
+
+extract.suffix	.tgz
+
+post-extract    { reinplace "s|-Wl,--rpath|-Wl,-rpath|g" ${worksrcpath}/configure }
+
+depends_lib	port:libwww \
+            port:openssl \
+		port:curl
+
+universal_variant	no
+
+# parallel build fails; see #26910
+use_parallel_build  no
+
+livecheck.url	http://sourceforge.net/export/rss2_projfiles.php?group_id=16847
+livecheck.distname	Xmlrpc-c stable

@@ -1,0 +1,39 @@
+# $Id: Portfile 193 2007-01-03 19:15:54Z darrell.schiebel $
+
+PortSystem 1.0
+PortGroup github 1.0
+PortGroup python 1.0
+
+github.setup            teythoon afew 162d9fa00ba09892bd8d63ec9fa182e0319000a2
+name			afew
+version                 0.1a1
+categories		mail python
+platforms		darwin
+maintainers		drs@nrao.edu
+license                 GPL-3
+
+fetch.type              git
+
+
+description		afew is an initial tagging script for notmuch mail
+long_description	afew is an initial tagging script for notmuch mail (http://notmuchmail.org/).   \
+                        Its basic task is to provide automatic tagging each time new mail is registered \
+                        with notmuch. In a classic setup, you might call it after 'notmuch new' in an   \
+                        offlineimap post sync hook. In addition to more elementary features such as     \
+                        adding tags based on email headers or maildir folders, handling killed threads  \
+                        and spam, it can do some heavy magic in order to /learn/ how to initially tag   \
+                        your mails based on their content.
+
+homepage		http://www.atnf.csiro.au/computing/software/rpfits.html
+
+distname		${name}-${version}
+master_sites		ftp://ftp.atnf.csiro.au/pub/software/rpfits/old
+
+supported_archs         noarch
+
+python.default_version 27
+python.link_binaries_suffix
+
+depends_build   port:notmuch                          \
+		port:py${python.version}-chardet      \
+		port:py${python.version}-subprocess32

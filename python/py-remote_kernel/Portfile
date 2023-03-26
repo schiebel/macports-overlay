@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+set _name           remote_kernel
+set _n              [string index ${_name} 0]
+
+name                py-remote_kernel
+version             1.1
+revision            0
+categories-append   devel
+license             BSD
+supported_archs     noarch
+platforms           {darwin any}
+
+python.versions     37 38 39 310
+python.pep517       yes
+python.pep517_backend hatch
+
+maintainers         nomaintainer
+
+description         remote ipykernel
+long_description    {*}${description}
+
+distname            ${python.rootname}-${version}
+homepage            https://pypi.python.org/pypi/${python.rootname}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+checksums           rmd160  a0a71980876e6f007198b8b779779c354e2cdc77 \
+                    sha256  a8e2492b9e641b6f19bacb90940e93cb41b087526648625e3ddd0145bcd304a7 \
+                    size    23506
+
+post-patch {
+    reinplace "s|^import versioneer|#import versioneer|g" ${worksrcpath}/setup.py
+    reinplace "s|versioneer.get_version()|'${version}.${revision}'|g" ${worksrcpath}/setup.py
+    file copy ${filespath}/requirements.txt ${worksrcpath}
+}
+
+depends_build-append 
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-ipykernel
+}

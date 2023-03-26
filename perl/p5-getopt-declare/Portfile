@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 76604 2011-03-02 01:49:46Z dports@macports.org $
+
+PortSystem      1.0
+PortGroup       perl5 1.0
+
+perl5.branches  5.8 5.10 5.12 5.14 5.16 5.22
+perl5.setup     Getopt-Declare 1.14
+revision        1
+maintainers     nomaintainer
+platforms       darwin
+description     module implementing an extended getopt function
+
+categories-append \
+    devel
+
+long_description \
+    Getopt::Declare is yet another command-line argument parser, one which is specifically \
+    designed to be powerful but exceptionally easy to use.
+
+checksums           md5     7ed52d0279abcb34c366369af8ac8cb8 \
+                    sha1    f23734e3e45d705ee174f2519972dd3bb09bd86b \
+                    rmd160  c6e18e65e9164b809135061a425b40d2f42b5b16
+
+supported_archs noarch
+

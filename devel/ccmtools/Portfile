@@ -1,0 +1,86 @@
+# $Id: Portfile 479 2008-04-02 23:39:40Z boyd.waters $
+# BINDIR INCDIR LIBDIR RCDIR SCRIPTDIR KEYDIR
+
+PortSystem			1.0
+name				ccmtools
+version				0.5.5
+revision			79
+categories			devel
+maintainers			drs@nrao.edu
+description			tools for creating local/remote components based on CORBA
+long_description 		CCM Tools are a set of programs and libraries used to generate, package, \
+				and deploy CORBA components. The tools implement parts of the CCM \
+				specification with some extensions to improve usability and performance \
+				of the component model. In particular, CCM Tools generates boilerplate \
+				which isolates the "business logic" from CORBA details. This allows \
+				CCM Tools to generate boilerplate to use the "business logic" directly \
+				completely removing any dependence upon CORBA. The developer can then \
+				choose when remote components (via CORBA) is required while continuing \
+				to use local components when possible to avoid the overhead of CORBA.
+
+platforms			darwin
+
+homepage			http://ccmtools.sourceforge.net/
+fetch.type			svn
+
+svn.url				https://svn.cv.nrao.edu/svn/ccmtools/trunk
+worksrcdir			trunk
+
+depends_build		bin:ant:apache-ant lib:XXX:ant-contrib
+depends_lib			lib:XXX:mico
+
+checksums			md5 db54fbda5b34c7e6db14641887929087
+
+patchfiles			ccmtools.script.patch \
+					patch-Py.cc \
+					buildxml-nobdb.patch
+post-patch			{
+				reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/ccmtools/bin/ccmtools-generate
+				reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/ccmtools/bin/ccmtools
+				reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/ccmtools/bin/uml2idl
+
+				reinplace "s|@@JAVAHOME@@|/usr|g" ${worksrcpath}/ccmtools/bin/ccmtools-generate
+				reinplace "s|@@JAVAHOME@@|/usr|g" ${worksrcpath}/ccmtools/bin/ccmtools
+				reinplace "s|@@JAVAHOME@@|/usr|g" ${worksrcpath}/ccmtools/bin/uml2idl
+
+				file copy -force ${filespath}/ccmtools.manual.Makefile ${worksrcpath}/ccmtools/doc/manual/Makefile
+				file copy -force ${filespath}/ccmtools.guide.Makefile ${worksrcpath}/ccmtools/doc/guide/Makefile
+
+				file copy -force ${filespath}/cpp.build.xml ${worksrcpath}/cpp-environment/build.xml
+				set python_include_path [exec python ${filespath}/includepath.py]
+				set python_executable_path [exec python ${filespath}/pythonpath.py]
+				set python_version [exec python -V |& cat]
+				scan ${python_version} "Python %d.%d" major minor
+				set python_version "${major}.${minor}"
+				regsub {^(.*)/include/.*} ${python_include_path} {\1/lib} python_lib_path
+				regsub {^(.*)/Headers} ${python_lib_path} {\1} python_lib_path
+				switch -regex -- $python_include_path \
+				    Headers$ {set python_library "${python_lib_path}/Python"} \
+				    default {set python_library "-lpython${python_version}"}
+				
+				reinplace "s|@@PYTHON_LIB_PATH@@|${python_lib_path}|g" ${worksrcpath}/cpp-environment/build.xml
+				reinplace "s|@@PYTHON_LIBRARY@@|${python_library}|g" ${worksrcpath}/cpp-environment/build.xml
+				reinplace "s|@@PYTHON_INCLUDE_PATH@@|${python_include_path}|g" ${worksrcpath}/cpp-environment/build.xml
+				reinplace "s|@@PYTHON_VERSION@@|${python_version}|g" ${worksrcpath}/cpp-environment/build.xml
+				reinplace "s|@@PYTHON_EXECUTABLE@@|${python_executable_path}|g" ${worksrcpath}/cpp-environment/build.xml
+				reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/cpp-environment/build.xml
+				
+				reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/cpp-environment/ccm/CCM_Python/Py.cc
+				}
+
+configure			{ }
+
+build				{
+				system "cd ${worksrcpath} && make 'INSTDIR=${prefix}' 'DESTROOT=${destroot}${prefix}'"
+				system "cd ${worksrcpath}/java-environment && ant install -Dprefix=${destroot}${prefix}"
+				system "cd ${worksrcpath}/ccmtools && ant install -Dprefix=${destroot}${prefix} -DTEMPLATE_ROOT=${prefix}/templates"
+				}
+
+destroot			{
+				file mkdir ${destroot}${prefix}/share/doc/ccmtools
+				file copy ${worksrcpath}/cpp-environment/bin/runMicoNS ${destroot}${prefix}/bin/ccmtools-MicoNS
+				file attributes ${destroot}${prefix}/bin/ccmtools-MicoNS -permissions 0755
+				file attributes ${destroot}${prefix}/bin/ccmtools-generate -permissions 0755
+				file attributes ${destroot}${prefix}/bin/ccmtools-idl -permissions 0755
+				file attributes ${destroot}${prefix}/bin/uml2idl -permissions 0755
+				}

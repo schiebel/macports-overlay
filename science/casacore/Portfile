@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id: Portfile 73961 2010-11-30 10:20:21Z dports@macports.org $
+
+PortSystem 1.0
+PortGroup   github 1.0
+PortGroup   cmake 1.1
+PortGroup   compilers 1.0
+
+name		casacore
+version		3.5.0
+revision    1
+categories	science
+maintainers	nomaintainer
+description	        suite of C++ libraries for radio astronomy data processing
+long_description	suite of C++ libraries for radio astronomy data processing
+
+set git_commit      347eedd2bc6c42ea36dbcb73b6cdd9cced7840b5
+github.setup        casacore casacore ${git_commit}
+
+checksums           rmd160  8b7049915de7e9d3a8b64d5c55e516f6cd174fd3 \
+                    sha256  2815aee5e0aecc9cd2f513547a454d13308277272046bdc5e89064078b9e61dc \
+                    size    16969446
+
+compilers.setup       require_fortran
+cmake.build_type      RelWithDebInfo
+configure.args-append -DCMAKE_INSTALL_PREFIX="${prefix}" \
+                      -DDATA_DIR="%CASAHOME%/../.casa/data" \
+                      -DUSE_OPENMP=ON \
+                      -DUSE_THREADS=ON \
+                      -DBUILD_FFTPACK_DEPRECATED=ON \
+                      -DBUILD_TESTING=OFF \
+                      -DBUILD_PYTHON3=OFF \
+                      -DBUILD_DYSCO=ON \
+                      -DUseCcache=0 \
+                      -DPRIVATE_LIBS="-framework Accelerate -lm -ldl -Wl,-rpath,/opt/local/lib/libgcc/"

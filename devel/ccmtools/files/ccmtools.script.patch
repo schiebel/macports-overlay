@@ -1,0 +1,84 @@
+diff -ru ../orig.ccmtools-0.5.1.p5/ccmtools/bin/ccmtools ./ccmtools/bin/ccmtools
+--- ../orig.ccmtools-0.5.1.p5/ccmtools/bin/ccmtools	2006-06-27 14:47:35.000000000 -0400
++++ ./ccmtools/bin/ccmtools	2006-06-27 14:40:33.000000000 -0400
+@@ -1,19 +1,19 @@
+ #!/bin/bash
+ 
+-JAVA_HOME="/usr"
++JAVA_HOME="@@JAVAHOME@@"
+ 
+ if [ -z "$CCMTOOLS_HOME" ]; then
+-CCMTOOLS_LIB="/usr/share/java/ccmtools"
+-CCMTOOLS_HOME="/usr"
++CCMTOOLS_LIB="@@PREFIX@@/share/java/ccmtools"
++CCMTOOLS_HOME="@@PREFIX@@"
+ else
+ CCMTOOLS_LIB="$CCMTOOLS_HOME/lib"
+ fi
+ 
+-JAVA_OPTIONS="-Xmx512M -Xms512M -Djava.library.path=/usr/lib:$LD_LIBRARY_PATH"
++JAVA_OPTIONS="-Xmx512M -Xms512M -Djava.library.path=@@PREFIX@@/lib:$LD_LIBRARY_PATH"
+ JAVA_LAUNCHER="$JAVA_HOME"/bin/java
+ if [ -x $JAVA_LAUNCHER ]; then 
+ 
+-CLASSPATH=$CCMTOOLS_LIB/antlr.jar:$CCMTOOLS_LIB/mdr01.jar:$CCMTOOLS_LIB/oclmetamodel.jar:$CCMTOOLS_LIB/ccmtools.jar:/usr/share/java/xerces.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java//usr/share/java/xml-commons-resolver.jar:/usr/share/java/db.jar:/usr/share/java/dbxml.jar:$CLASSPATH
++CLASSPATH=$CCMTOOLS_LIB/antlr.jar:$CCMTOOLS_LIB/mdr01.jar:$CCMTOOLS_LIB/oclmetamodel.jar:$CCMTOOLS_LIB/ccmtools.jar:@@PREFIX@@/share/java/xercesImpl.jar:@@PREFIX@@/share/java/xml-apis.jar:$CLASSPATH
+ 
+ $JAVA_HOME/bin/java $JAVA_OPTIONS -cp $CLASSPATH ccmtools.UI.ConsoleCodeGenerator --home=$CCMTOOLS_HOME $@
+   
+diff -ru ../orig.ccmtools-0.5.1.p5/ccmtools/bin/ccmtools-generate ./ccmtools/bin/ccmtools-generate
+--- ../orig.ccmtools-0.5.1.p5/ccmtools/bin/ccmtools-generate	2006-06-27 14:47:51.000000000 -0400
++++ ./ccmtools/bin/ccmtools-generate	2006-06-27 14:41:22.000000000 -0400
+@@ -1,19 +1,19 @@
+ #!/bin/bash
+ 
+-JAVA_HOME="/usr"
++JAVA_HOME="@@JAVAHOME@@"
+ 
+ if [ -z "$CCMTOOLS_HOME" ]; then
+-CCMTOOLS_LIB="/usr/share/java/ccmtools"
+-CCMTOOLS_HOME="/usr"
++CCMTOOLS_LIB="@@PREFIX@@/share/java/ccmtools"
++CCMTOOLS_HOME="@@PREFIX@@"
+ else
+ CCMTOOLS_LIB="$CCMTOOLS_HOME/lib"
+ fi
+ 
+-JAVA_OPTIONS="-Xmx512M -Xms512M -Djava.library.path=/usr/lib:$LD_LIBRARY_PATH"
++JAVA_OPTIONS="-Xmx512M -Xms512M -Djava.library.path=@@PREFIX@@/lib:$LD_LIBRARY_PATH"
+ JAVA_LAUNCHER="$JAVA_HOME"/bin/java
+ if [ -x $JAVA_LAUNCHER ]; then 
+ 
+-CLASSPATH=$CCMTOOLS_LIB/antlr.jar:$CCMTOOLS_LIB/mdr01.jar:$CCMTOOLS_LIB/oclmetamodel.jar:$CCMTOOLS_LIB/ccmtools.jar:/usr/share/java/xerces.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java//usr/share/java/xml-commons-resolver.jar:/usr/share/java/db.jar:/usr/share/java/dbxml.jar:$CLASSPATH
++CLASSPATH=$CCMTOOLS_LIB/antlr.jar:$CCMTOOLS_LIB/mdr01.jar:$CCMTOOLS_LIB/oclmetamodel.jar:$CCMTOOLS_LIB/ccmtools.jar:@@PREFIX@@/share/java/xercesImpl.jar:@@PREFIX@@/share/java/xml-apis.jar:$CLASSPATH
+ 
+ $JAVA_HOME/bin/java $JAVA_OPTIONS -cp $CLASSPATH ccmtools.UI.ConsoleCodeGenerator --home=$CCMTOOLS_HOME $@
+ echo "Note that you can also use 'ccmtools' instead of 'ccmtools-generate'!"
+diff -ru ../orig.ccmtools-0.5.1.p5/ccmtools/bin/uml2idl ./ccmtools/bin/uml2idl
+--- ../orig.ccmtools-0.5.1.p5/ccmtools/bin/uml2idl	2006-06-27 14:48:15.000000000 -0400
++++ ./ccmtools/bin/uml2idl	2006-06-27 14:42:20.000000000 -0400
+@@ -1,19 +1,19 @@
+ #!/bin/bash
+ 
+-JAVA_HOME="/usr"
++JAVA_HOME="@@JAVAHOME@@"
+ 
+ if [ -z "$CCMTOOLS_HOME" ]; then
+-CCMTOOLS_LIB="/usr/share/java/ccmtools"
+-CCMTOOLS_HOME="/usr"
++CCMTOOLS_LIB="@@PREFIX@@/share/java/ccmtools"
++CCMTOOLS_HOME="@@PREFIX@@"
+ else
+ CCMTOOLS_LIB="$CCMTOOLS_HOME/lib"
+ fi
+ 
+-JAVA_OPTIONS="-Xmx512M -Xms512M -Djava.library.path=/usr/lib:$LD_LIBRARY_PATH"
++JAVA_OPTIONS="-Xmx512M -Xms512M -Djava.library.path=@@PREFIX@@/lib:$LD_LIBRARY_PATH"
+ JAVA_LAUNCHER="$JAVA_HOME"/bin/java
+ if [ -x $JAVA_LAUNCHER ]; then 
+ 
+-CLASSPATH=$CCMTOOLS_LIB/antlr.jar:$CCMTOOLS_LIB/mdr01.jar:$CCMTOOLS_LIB/oclmetamodel.jar:$CCMTOOLS_LIB/ccmtools.jar:/usr/share/java/xerces.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java//usr/share/java/xml-commons-resolver.jar:/usr/share/java/db.jar:/usr/share/java/dbxml.jar:$CLASSPATH
++CLASSPATH=$CCMTOOLS_LIB/antlr.jar:$CCMTOOLS_LIB/mdr01.jar:$CCMTOOLS_LIB/oclmetamodel.jar:$CCMTOOLS_LIB/ccmtools.jar:@@PREFIX@@/share/java/xercesImpl.jar:@@PREFIX@@/share/java/xml-apis.jar:$CLASSPATH
+
+ $JAVA_HOME/bin/java $JAVA_OPTIONS -cp $CLASSPATH uml2idl.Main $@
+   
